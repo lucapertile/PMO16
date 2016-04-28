@@ -20,7 +20,7 @@ deterministicTime = 0.02; %the packets arrive every 0.02 time units
  
 %stop when we have collected 100 packets in the array with the
 %deterministic packets
-while(nArrivalsDeterministic <  videoLength && elapsedTimePoisson >= deterministicTime*videoLength)
+while(nArrivalsDeterministic <  videoLength && elapsedTimePoisson <= deterministicTime*videoLength)
     
     
      %service times can either exponentially distributed or deterministic
