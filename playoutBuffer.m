@@ -40,6 +40,22 @@ while(nArrivalsDeterministic <  videoLength || elapsedTimePoisson <= determinist
 end
 
 %merge the arrays into a single time line
+
+tBufferTimeline= zeros(max(nArrivalsPoisson,nArrivalsDeterministic),1);
+
+for k = 1:max(nArrivalsPoisson,nArrivalsDeterministic)
+   
+   poissonServiceTime = exprnd(1/(muOtherEvents));
+    
+   if tArrivalsOtherEvents(k)< tArrivalsDeterministic(k)
+    
+   tBufferTimeline(k)=py.tuple({,'Biology'}) 
+    
+end
+
+
+
+
 tArrivalsOtherEvents
 tArrivalsDeterministic
 
