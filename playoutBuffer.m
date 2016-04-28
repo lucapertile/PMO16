@@ -41,23 +41,28 @@ end
 
 %merge the arrays into a single time line
 
-tBufferTimeline= zeros(max(nArrivalsPoisson,nArrivalsDeterministic),1);
+% tBufferTimeline = zeros(nArrivalsPoisson+nArrivalsDeterministic,1);
+% 
+% k=0;
+% while(i <  videoLength)
+%   
+%    poissonServiceTime = exprnd(1/(muOtherEvents));
+%     
+%    if (tArrivalsOtherEvents(k)< tArrivalsDeterministic(k))
+%     
+%         tBufferTimeline(k)=py.tuple({,'Biology'}) 
+%    end
+%    
+%    k=k+1
+% end
 
-for k = 1:max(nArrivalsPoisson,nArrivalsDeterministic)
-   
-   poissonServiceTime = exprnd(1/(muOtherEvents));
-    
-   if tArrivalsOtherEvents(k)< tArrivalsDeterministic(k)
-    
-   tBufferTimeline(k)=py.tuple({,'Biology'}) 
-    
-end
+timeline=sort([tArrivalsDeterministic;tArrivalsOtherEvents])
 
 
 
 
-tArrivalsOtherEvents
-tArrivalsDeterministic
+%tArrivalsOtherEvents
+%tArrivalsDeterministic
 
 
 end
