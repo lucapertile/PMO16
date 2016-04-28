@@ -5,35 +5,43 @@ if (nargin==0)
     lambda = 50; muVideo = 1/0.0075; muOtherEvents=1/0.014; nSteps = 100;
 end
 
-rho = lambda/mu;
-
 % Initialisation
-tResidence = zeros(nSteps+1,1);
-tArrivals = zeros(nSteps,1);
-tDepartures = zeros(nSteps,1);
-tResponse = zeros(nSteps,1);
-states = zeros(nSteps+1,1);
+
+tArrivalsOtherEvents = zeros(nSteps,1);
 
 i = 0;
-
-for k = 1:nSteps
+tArrivalsDeterministic = zeros(100,1);
+nArrivalsDeterministic=0;
+nArrivalsPoisson=0;
+elapsedTimePoisson =0;
+videoLength = 100; %length of the video in packets
+elapsedTimeDeterministic =0;
+deterministicTime = 0.02; %the packets arrive every 0.02 time units
+ 
+%stop when we have collected 100 packets in the array with the
+%deterministic packets
+while(nArrivalsDeterministic <  videoLength && elapsedTimePoisson >= deterministicTime*videoLength)
+    
     
      %service times can either exponentially distributed or deterministic
      %depending on the type of packet that we get
-    time = exprnd(1/(lambda+mux)); % Time to the next transition
-    elapsedTime = elapsedTime + time;
-
-    if (rand < lambda/(lambda+muOtherEvents)) % We have an arrival ...
-        nArrivals = nArrivals + 1;
-        tArrivals(nArrivals) = elapsedTime;
-        i = i + 1;
-    else
-        nCompletions = nCompletions + 1; % ... or a completion with probability mux/(lambda+mux)
-        tDepartures(nCompletions) = elapsedTime;
-        i = i - 1;
-    end
+ 
+    elapsedTimeDeterministic = elapsedTimeDeterministic + deterministicTime;
+    nArrivalsDeterministic = nArrivalsDeterministic + 1;
+    tArrivalsDeterministic(nArrivalsDeterministic) = elapsedTimeDeterministic;
     
+    
+    poissonTime = exprnd(1/(lambda)); % exp distributed random variable for the arrival time 
+    elapsedTimePoisson = elapsedTimePoisson + poissonTime;
+    % an event arrives from the Poisson stream
+    nArrivalsPoisson = nArrivalsPoisson + 1;
+    tArrivalsOtherEvents(nArrivalsPoisson) = elapsedTimePoisson;
+   
 end
+
+%merge the arrays into a single time line
+tArrivalsOtherEvents(1:10)
+tArrivalsDeterministic(1:10)
 
 
 end
